@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>타스코 · 2026 한가위 인사</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#17223B; --night-2:#0F1829; --moon:#EBCB8C; --moon-soft:#F6E5C2;
+  --paper:#FAF6EE; --panel:#FFFFFF; --panel-2:#F4EEE2;
+  --text:#2B2A26; --soft:#6E6757; --line:#DFD5C3; --line-2:#EAE2D3;
+  --seal:#9B3B2E; --ok:#2F6B4F;
+  --field:#FFFFFF; --field-line:#CFC6B4;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --night:#0D1524; --night-2:#080E1A; --moon:#E3C489; --moon-soft:#EBD9B4;
+    --paper:#141310; --panel:#1C1A16; --panel-2:#221F1A;
+    --text:#EDE7DA; --soft:#A79E8C; --line:#38332A; --line-2:#2B271F;
+    --seal:#D4796A; --ok:#7CBE9C;
+    --field:#211E19; --field-line:#453E32;
+  }
+}
+:root[data-theme="dark"]{
+  --night:#0D1524; --night-2:#080E1A; --moon:#E3C489; --moon-soft:#EBD9B4;
+  --paper:#141310; --panel:#1C1A16; --panel-2:#221F1A;
+  --text:#EDE7DA; --soft:#A79E8C; --line:#38332A; --line-2:#2B271F;
+  --seal:#D4796A; --ok:#7CBE9C;
+  --field:#211E19; --field-line:#453E32;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--text);
+  font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  font-size:16px; line-height:1.75;
+}
+img{max-width:100%}
+
+/* ── 밤하늘 ───────────────────────────── */
+.sky{
+  position:relative; overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 8%, #24314F 0%, var(--night) 45%, var(--night-2) 100%);
+  padding:clamp(48px,11vw,84px) 20px clamp(40px,9vw,64px);
+  text-align:center; color:var(--moon-soft);
+}
+.moon{
+  display:block; margin:0 auto clamp(22px,5vw,34px);
+  width:clamp(84px,22vw,116px); height:auto;
+  opacity:0; animation:rise 1500ms cubic-bezier(.2,.7,.2,1) 120ms forwards;
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){ .moon{animation:none;opacity:1} }
+
+.brand{
+  font-family:'Nanum Myeongjo',Batang,serif; font-weight:700;
+  font-size:1rem; letter-spacing:.34em; margin:0 0 14px; color:var(--moon);
+  padding-left:.34em;
+}
+.sky h1{
+  font-family:'Nanum Myeongjo',Batang,serif; font-weight:800;
+  font-size:clamp(1.9rem,7.4vw,2.7rem); line-height:1.4; margin:0;
+  color:var(--moon-soft);
+}
+
+/* ── 본문 ─────────────────────────────── */
+.wrap{max-width:38rem; margin:0 auto; padding:0 20px 72px}
+.letter{
+  background:var(--panel); border:1px solid var(--line);
+  border-top:none; padding:clamp(28px,6vw,44px) clamp(20px,5vw,40px);
+}
+.letter p{
+  font-family:'Nanum Myeongjo',Batang,serif;
+  font-size:1.06rem; line-height:2.1; margin:0 0 1.15em; word-break:keep-all;
+}
+.letter p:last-child{margin-bottom:0}
+.sign{
+  margin-top:30px; padding-top:22px; border-top:1px solid var(--line-2);
+  font-family:'Nanum Myeongjo',Batang,serif; text-align:right; line-height:1.9;
+}
+.sign b{font-weight:800; font-size:1.1rem; letter-spacing:.06em}
+.sign span{display:block; font-size:.85rem; color:var(--soft); font-family:inherit}
+
+.gift{
+  margin-top:26px; background:var(--panel-2);
+  border:1px solid var(--line); padding:22px clamp(18px,4vw,26px);
+}
+.gift h2{
+  font-family:'Nanum Myeongjo',Batang,serif; font-size:1.15rem;
+  margin:0 0 14px; font-weight:800;
+}
+.gift dl{margin:0; display:grid; grid-template-columns:5.4rem 1fr; gap:8px 12px; font-size:.93rem}
+.gift dt{color:var(--soft); font-weight:500}
+.gift dd{margin:0; word-break:keep-all}
+.gift .due{color:var(--seal); font-weight:700}
+
+/* ── 폼 ───────────────────────────────── */
+.form{margin-top:34px}
+.form h2{
+  font-family:'Nanum Myeongjo',Batang,serif; font-size:1.3rem; font-weight:800;
+  margin:0 0 6px;
+}
+.form .lead{margin:0 0 24px; font-size:.92rem; color:var(--soft); word-break:keep-all}
+
+.field{margin-bottom:18px}
+.field label{display:block; font-size:.88rem; font-weight:500; margin-bottom:7px}
+.req{color:var(--seal); font-weight:700; margin-left:3px}
+.hint{font-size:.8rem; color:var(--soft); font-weight:400; margin-left:6px}
+input[type=text],input[type=tel],textarea{
+  width:100%; padding:13px 14px; font:inherit; font-size:1rem;
+  color:var(--text); background:var(--field);
+  border:1px solid var(--field-line); border-radius:2px;
+}
+textarea{resize:vertical; min-height:76px; line-height:1.6}
+input:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{
+  outline:2px solid var(--seal); outline-offset:2px;
+}
+.row{display:grid; grid-template-columns:8.5rem 1fr; gap:10px}
+@media (max-width:420px){ .row{grid-template-columns:1fr} }
+.err{display:none; margin-top:6px; font-size:.82rem; color:var(--seal)}
+.field.bad input,.field.bad textarea{border-color:var(--seal)}
+.field.bad .err{display:block}
+
+.consent{
+  margin:26px 0 22px; border:1px solid var(--line);
+  background:var(--panel-2); padding:16px 18px;
+}
+.consent details{margin-bottom:12px}
+.consent summary{
+  cursor:pointer; font-size:.88rem; font-weight:500; list-style:none;
+}
+.consent summary::-webkit-details-marker{display:none}
+.consent summary::before{content:"＋ "; color:var(--soft)}
+.consent details[open] summary::before{content:"－ "}
+.consent .terms{
+  margin:12px 0 0; font-size:.83rem; line-height:1.85; color:var(--soft);
+}
+.consent .terms table{width:100%; border-collapse:collapse; margin:8px 0}
+.consent .terms th,.consent .terms td{
+  border:1px solid var(--line); padding:6px 8px; text-align:left; font-weight:400;
+}
+.consent .terms th{background:var(--panel); width:6.5rem; color:var(--text)}
+.check{display:flex; align-items:flex-start; gap:9px; font-size:.9rem; cursor:pointer}
+.check input{margin:5px 0 0; width:17px; height:17px; accent-color:var(--seal); flex:none}
+.consent.bad{border-color:var(--seal)}
+
+.submit{
+  width:100%; padding:16px; font:inherit; font-size:1.05rem; font-weight:700;
+  font-family:'Nanum Myeongjo',Batang,serif; letter-spacing:.14em; padding-left:1.14em;
+  color:var(--moon-soft); background:var(--night); border:none; border-radius:2px;
+  cursor:pointer;
+}
+.submit:hover{background:var(--night-2)}
+.submit:disabled{opacity:.5; cursor:progress}
+.formnote{margin:14px 0 0; font-size:.8rem; color:var(--soft); text-align:center}
+.formerr{
+  display:none; margin:14px 0 0; padding:12px 14px; font-size:.86rem;
+  border:1px solid var(--seal); color:var(--seal); background:var(--panel);
+}
+.formerr.on{display:block}
+
+/* ── 완료 ─────────────────────────────── */
+.done{text-align:center; padding:52px 20px}
+.done .mark{
+  width:54px; height:54px; margin:0 auto 22px; border-radius:50%;
+  background:var(--night); color:var(--moon); font-size:1.5rem;
+  display:flex; align-items:center; justify-content:center;
+}
+.done h2{font-family:'Nanum Myeongjo',Batang,serif; font-size:1.5rem; margin:0 0 12px}
+.done p{margin:0 0 8px; font-size:.95rem; color:var(--soft); word-break:keep-all}
+.done .again{
+  margin-top:26px; background:none; border:none; font:inherit; font-size:.85rem;
+  color:var(--soft); text-decoration:underline; cursor:pointer;
+}
+
+.foot{
+  max-width:38rem; margin:0 auto; padding:26px 20px 56px;
+  font-size:.8rem; color:var(--soft); text-align:center; line-height:1.9;
+}
+.foot b{color:var(--text); font-weight:500}
+
+/* ── 관리자 ───────────────────────────── */
+.admin{max-width:66rem; margin:0 auto; padding:34px 20px 80px}
+.admin h1{font-family:'Nanum Myeongjo',Batang,serif; font-size:1.5rem; margin:0 0 4px}
+.admin .meta{margin:0 0 22px; font-size:.88rem; color:var(--soft)}
+.tools{display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px}
+.tools button{
+  padding:11px 18px; font:inherit; font-size:.9rem; font-weight:500; cursor:pointer;
+  background:var(--night); color:var(--moon-soft); border:none; border-radius:2px;
+}
+.tools button.ghost{background:none; color:var(--text); border:1px solid var(--line)}
+.tools button:disabled{opacity:.45; cursor:not-allowed}
+.tablewrap{overflow-x:auto; border:1px solid var(--line); background:var(--panel)}
+table.data{border-collapse:collapse; width:100%; font-size:.85rem; white-space:nowrap}
+table.data th,table.data td{border-bottom:1px solid var(--line-2); padding:10px 12px; text-align:left}
+table.data th{background:var(--panel-2); font-weight:500; color:var(--soft); position:sticky; top:0}
+table.data td.wrapcell{white-space:normal; min-width:16rem}
+.empty{padding:44px 20px; text-align:center; color:var(--soft); font-size:.9rem}
+.toast{
+  margin-top:14px; font-size:.85rem; color:var(--ok);
+}
+.toast.bad{color:var(--seal)}
+.backlink{display:inline-block; margin-top:26px; font-size:.85rem; color:var(--soft)}
+.setup{
+  background:var(--seal); color:#fff; padding:14px 20px; font-size:.86rem;
+  line-height:1.6; text-align:center;
+}
+.setup b{font-weight:700}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   설정 — 이 부분만 고치면 문구/일정이 바뀝니다
+   ═══════════════════════════════════════════════════════════ */
+var CFG = {
+  company:  "타스코",
+  brandEn:  "TASCO",
+  due:      "9월 20일(일) 밤 12시",
+  contact:  "1577-3851 · tasco@tascorp.co.kr",
+
+  /* ▼ 구글 앱스스크립트 배포 주소를 여기에 붙여넣으세요 (README 3번 단계) */
+  endpoint: "https://script.google.com/macros/s/AKfycbxsI6Jv6QqwGMMJR4-3fBfgZcFZuayE5TOxa5fZ5FoE3CSTte-9j9yJyhf4RIgTsO-7/exec",
+  /* ▼ 관리자 화면 열쇠. 앱스스크립트의 ADMIN_KEY 와 같아야 합니다 */
+  adminKey: "tasco2026",
+  disposeBy: "2026년 10월 15일"
+};
+
+/* ═══════════════════════════════════════════════════════════ */
+var app = document.getElementById('app');
+var LS_KEY = 'tasco_chuseok_2026_done';
+
+function cap(name){
+  try{
+    if (window.claude && typeof window.claude.use === 'function'){
+      return window.claude.use(name).catch(function(){ return null; });
+    }
+  }catch(e){}
+  return Promise.resolve(null);
+}
+var dbP = cap('db');
+var dlP = cap('downloads');
+
+var ON_ARTIFACT = !!(window.claude && typeof window.claude.use === 'function');
+
+/* 신청 1건을 구글 시트로 보냅니다.
+   text/plain 으로 보내야 브라우저 사전검사(preflight) 없이 통과합니다. */
+function postToSheet(rec){
+  return fetch(CFG.endpoint, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(rec)
+  }).then(function(r){ return r.json(); }).then(function(j){
+    if (!j || !j.ok) throw new Error('sheet');
+  });
+}
+
+/* 관리자 화면에서 시트의 전체 내역을 읽어옵니다. */
+function fetchFromSheet(key){
+  return fetch(CFG.endpoint + '?key=' + encodeURIComponent(key))
+    .then(function(r){ return r.json(); }).then(function(j){
+      if (!j || !j.ok) throw new Error(j && j.error === 'key' ? 'key' : 'load');
+      return j.rows || [];
+    });
+}
+
+function store(rec){
+  if (CFG.endpoint) return postToSheet(rec);
+  return dbP.then(function(db){
+    if (!db) throw new Error('nodb');
+    return db.collection('submissions').add(rec);
+  });
+}
+
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+  });
+}
+function nowStamp(){
+  var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+
+var MOON = '<svg class="moon" viewBox="0 0 120 120" aria-hidden="true">'
+  + '<defs><radialGradient id="g" cx="50%" cy="50%" r="50%">'
+  + '<stop offset="62%" stop-color="var(--moon)" stop-opacity=".30"/>'
+  + '<stop offset="100%" stop-color="var(--moon)" stop-opacity="0"/>'
+  + '</radialGradient></defs>'
+  + '<circle cx="60" cy="60" r="58" fill="url(#g)"/>'
+  + '<circle cx="60" cy="60" r="35" fill="var(--moon)"/>'
+  + '<circle cx="49" cy="51" r="6.5" fill="#000" opacity=".07"/>'
+  + '<circle cx="70" cy="66" r="4.5" fill="#000" opacity=".06"/>'
+  + '<circle cx="62" cy="44" r="3" fill="#000" opacity=".05"/>'
+  + '</svg>';
+
+/* ─── 고객 화면 ─────────────────────────────────────────── */
+function renderForm(){
+  app.innerHTML =
+  '<header class="sky">' + MOON
+  + '<p class="brand">' + esc(CFG.brandEn) + '</p>'
+  + '<h1>한 해의 수고에<br>감사를 담아 보냅니다</h1>'
+  + '</header>'
+
+  + '<main class="wrap">'
+  + '<section class="letter">'
+  + '<p>안녕하세요, ' + esc(CFG.company) + '입니다.</p>'
+  + '<p>올 한 해 저희를 믿고 함께해 주신 덕분에 무사히 한가위를 맞이합니다. 늘 곁에서 힘이 되어 주신 마음에 어떻게 보답할까 고민하다, 작은 정성을 준비했습니다.</p>'
+  + '<p>넉넉하고 평안한 한가위 보내시길 바랍니다.</p>'
+  + '<div class="sign"><b>' + esc(CFG.company) + ' 송문호 회장</b><span>임직원 일동 드림</span></div>'
+  + '</section>'
+
+  + '<section class="gift">'
+  + '<h2>신청 안내</h2>'
+  + '<dl>'
+  + '<dt>신청 마감</dt><dd class="due">' + esc(CFG.due) + '</dd>'
+  + '<dt>정보 파기</dt><dd>발송이 끝나면 남겨 주신 정보는 <b>전부 파기</b>합니다</dd>'
+  + '</dl>'
+  + '</section>'
+
+  + '<section class="form">'
+  + '<h2>받으실 곳을 알려 주세요</h2>'
+  + '<p class="lead">선물 발송이 끝나는 대로 입력하신 정보는 모두 파기합니다.</p>'
+  + '<form id="f" novalidate>'
+
+  + '<div class="field" data-f="name"><label for="i-name">성함<span class="req">*</span></label>'
+  + '<input id="i-name" type="text" autocomplete="name" placeholder="홍길동">'
+  + '<p class="err">성함을 입력해 주세요.</p></div>'
+
+  + '<div class="field" data-f="org"><label for="i-org">회사명 · 직함<span class="req">*</span></label>'
+  + '<input id="i-org" type="text" autocomplete="organization" placeholder="○○상사 / 부장">'
+  + '<p class="err">회사명과 직함을 입력해 주세요.</p></div>'
+
+  + '<div class="field" data-f="phone"><label for="i-phone">연락처<span class="req">*</span>'
+  + '<span class="hint">배송 안내 문자용</span></label>'
+  + '<input id="i-phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678">'
+  + '<p class="err">연락 가능한 번호를 정확히 입력해 주세요.</p></div>'
+
+  + '<div class="field" data-f="addr"><label for="i-addr">받으실 주소<span class="req">*</span></label>'
+  + '<div class="row">'
+  + '<input id="i-zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="우편번호">'
+  + '<input id="i-addr" type="text" autocomplete="street-address" placeholder="도로명 또는 지번 주소">'
+  + '</div>'
+  + '<p class="err">주소를 입력해 주세요.</p></div>'
+
+  + '<div class="field"><label for="i-addr2">상세 주소<span class="hint">동 · 호수 · 부서</span></label>'
+  + '<input id="i-addr2" type="text" placeholder="3층 301호"></div>'
+
+  + '<div class="field"><label for="i-memo">배송 요청사항<span class="hint">선택</span></label>'
+  + '<textarea id="i-memo" placeholder="부재 시 경비실에 맡겨 주세요"></textarea></div>'
+
+  + '<div class="consent" id="consent">'
+  + '<details><summary>개인정보 수집·이용 안내 (필수)</summary>'
+  + '<div class="terms"><table>'
+  + '<tr><th>수집 항목</th><td>성함, 회사명·직함, 연락처, 주소, 요청사항(선택)</td></tr>'
+  + '<tr><th>이용 목적</th><td>추석 선물 발송 및 배송 관련 안내</td></tr>'
+  + '<tr><th>보유 기간</th><td>선물 발송 및 배송 완료 확인 시점까지만 보관하며, 완료 즉시 지체 없이 파기합니다. (늦어도 ' + esc(CFG.disposeBy) + '까지)</td></tr>'
+  + '<tr><th>파기 방법</th><td>전자 파일은 복구할 수 없는 방법으로 삭제하고, 출력물이 있는 경우 분쇄합니다. 제3자에게 제공하거나 별도로 보관하지 않습니다.</td></tr>'
+  + '</table>'
+  + '<p style="margin:8px 0 0">동의를 거부하실 수 있으며, 이 경우 선물 발송이 어려운 점 양해 부탁드립니다.</p>'
+  + '</div></details>'
+  + '<label class="check"><input type="checkbox" id="i-agree">'
+  + '<span>위 내용을 확인했으며 개인정보 수집·이용에 동의합니다.</span></label>'
+  + '</div>'
+
+  + '<button class="submit" type="submit" id="btn">신청 보내기</button>'
+  + '<p class="formerr" id="ferr"></p>'
+  + '<p class="formnote">선물 발송 외의 목적으로는 사용하지 않으며, 발송 완료 후 전부 파기합니다.</p>'
+  + '</form>'
+  + '</section>'
+  + '</main>'
+
+  + '<footer class="foot">'
+  + '<b>' + esc(CFG.company) + '</b><br>문의 ' + esc(CFG.contact)
+  + '</footer>';
+
+  document.getElementById('f').addEventListener('submit', onSubmit);
+}
+
+function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+function mark(key, bad){
+  var el = document.querySelector('[data-f="' + key + '"]');
+  if (el) el.classList.toggle('bad', !!bad);
+}
+
+function onSubmit(e){
+  e.preventDefault();
+  var ferr = document.getElementById('ferr');
+  ferr.classList.remove('on');
+
+  var name  = val('i-name');
+  var org   = val('i-org');
+  var phone = val('i-phone');
+  var addr  = val('i-addr');
+  var agree = document.getElementById('i-agree').checked;
+  var digits = phone.replace(/[^0-9]/g, '');
+
+  var ok = true;
+  mark('name',  !name);                      if (!name) ok = false;
+  mark('org',   !org);                       if (!org)  ok = false;
+  mark('phone', digits.length < 9 || digits.length > 11);
+  if (digits.length < 9 || digits.length > 11) ok = false;
+  mark('addr',  !addr);                      if (!addr) ok = false;
+  document.getElementById('consent').classList.toggle('bad', !agree);
+  if (!agree) ok = false;
+
+  if (!ok){
+    var first = document.querySelector('.field.bad input, .consent.bad input');
+    if (first) first.focus();
+    return;
+  }
+
+  var btn = document.getElementById('btn');
+  btn.disabled = true;
+  btn.textContent = '보내는 중…';
+
+  var rec = {
+    createdAt: new Date().toISOString(),
+    stamp:     nowStamp(),
+    name:      name,
+    org:       val('i-org'),
+    phone:     phone,
+    zip:       val('i-zip'),
+    addr:      addr,
+    addr2:     val('i-addr2'),
+    memo:      val('i-memo'),
+    agreed:    true
+  };
+
+  store(rec).then(function(){
+    try{ localStorage.setItem(LS_KEY, name); }catch(e){}
+    renderDone(name);
+    window.scrollTo(0, 0);
+  }).catch(function(){
+    btn.disabled = false;
+    btn.textContent = '신청 보내기';
+    ferr.textContent = needsSetup()
+      ? '[관리자 확인 필요] 저장소가 연결되지 않았습니다. README 3단계를 완료해 주세요.'
+      : '신청이 저장되지 않았습니다. 잠시 후 다시 눌러 주시고, 계속 같은 화면이 나오면 ' + CFG.contact + ' 로 연락 주세요.';
+    ferr.classList.add('on');
+  });
+}
+
+function renderDone(name){
+  app.innerHTML =
+  '<header class="sky">' + MOON
+  + '<p class="brand">' + esc(CFG.brandEn) + '</p>'
+  + '<h1>잘 받았습니다</h1>'
+  + '</header>'
+  + '<main class="wrap"><section class="letter done">'
+  + '<div class="mark" aria-hidden="true">✓</div>'
+  + '<h2>' + esc(name) + '님, 신청이 접수되었습니다</h2>'
+  + '<p>마감 후 순차적으로 발송해 드립니다.</p>'
+  + '<p>발송이 시작되면 남겨 주신 번호로 안내드리겠습니다.</p>'
+  + '<p>배송이 확인되면 남겨 주신 정보는 모두 파기합니다.</p>'
+  + '<p style="margin-top:20px">풍성한 한가위 보내세요.</p>'
+  + '<button class="again" id="again">주소를 잘못 적었어요 · 다시 신청하기</button>'
+  + '</section></main>'
+  + '<footer class="foot"><b>' + esc(CFG.company) + '</b><br>문의 ' + esc(CFG.contact) + '</footer>';
+
+  document.getElementById('again').addEventListener('click', function(){
+    try{ localStorage.removeItem(LS_KEY); }catch(e){}
+    renderForm(); window.scrollTo(0,0);
+  });
+}
+
+/* ─── 관리자 화면 (#admin) ──────────────────────────────── */
+var rows = [];
+var COLS = [
+  ['stamp','접수일시'], ['name','성함'], ['org','회사명·직함'], ['phone','연락처'],
+  ['zip','우편번호'], ['addr','주소'], ['addr2','상세주소'], ['memo','요청사항']
+];
+
+function renderAdmin(){
+  app.innerHTML =
+  '<div class="admin">'
+  + '<h1>' + esc(CFG.company) + ' 추석 선물 신청 내역</h1>'
+  + '<p class="meta" id="meta">불러오는 중…</p>'
+  + '<div class="tools">'
+  + '<button id="xlsx">엑셀(.xlsx) 다운로드</button>'
+  + '<button id="csv" class="ghost">CSV 다운로드</button>'
+  + '<button id="reload" class="ghost">새로고침</button>'
+  + '</div>'
+  + '<div class="tablewrap" id="tw"><p class="empty">불러오는 중…</p></div>'
+  + '<p class="toast" id="toast"></p>'
+  + '<a class="backlink" href="#">← 고객 화면 보기</a>'
+  + '</div>';
+
+  document.getElementById('xlsx').addEventListener('click', downloadXlsx);
+  document.getElementById('csv').addEventListener('click', downloadCsv);
+  document.getElementById('reload').addEventListener('click', function(){
+    document.getElementById('tw').innerHTML = '<p class="empty">불러오는 중…</p>';
+    loadRows();
+  });
+
+  loadRows();
+}
+
+function adminFail(msg){
+  var meta = document.getElementById('meta'), tw = document.getElementById('tw');
+  if (meta) meta.textContent = '';
+  if (tw) tw.innerHTML = '<p class="empty">' + esc(msg) + '</p>';
+}
+
+function loadRows(){
+  if (CFG.endpoint){
+    var key = (location.hash.split('=')[1] || '').trim();
+    if (!key){
+      adminFail('주소 끝에 열쇠를 붙여 주세요.  예)  ...#admin=' + CFG.adminKey);
+      return;
+    }
+    fetchFromSheet(key).then(function(list){
+      rows = list; paint();
+    }).catch(function(e){
+      adminFail(e.message === 'key'
+        ? '열쇠가 맞지 않습니다. 주소 뒤의 #admin=... 부분을 확인해 주세요.'
+        : '내역을 불러오지 못했습니다. 구글 시트 연결(endpoint)을 확인해 주세요.');
+    });
+    return;
+  }
+  dbP.then(function(db){
+    if (!db){ adminFail('이 화면에서는 저장소를 사용할 수 없습니다.'); return; }
+    db.collection('submissions').orderBy('createdAt','desc').onSnapshot(function(snap){
+      rows = snap.docs.map(function(d){ return d.data(); });
+      paint();
+    }, function(){ adminFail('목록을 불러오지 못했습니다. 새로고침해 주세요.'); });
+  });
+}
+
+function paint(){
+  var meta = document.getElementById('meta'), tw = document.getElementById('tw');
+  if (!meta || !tw) return;
+  meta.textContent = '총 ' + rows.length + '건 · ' + nowStamp() + ' 기준';
+  if (!rows.length){
+    tw.innerHTML = '<p class="empty">아직 신청이 없습니다. 고객에게 링크를 보내면 여기에 쌓입니다.</p>';
+    return;
+  }
+  var h = '<table class="data"><thead><tr><th>#</th>'
+    + COLS.map(function(c){ return '<th>' + esc(c[1]) + '</th>'; }).join('')
+    + '</tr></thead><tbody>';
+  rows.forEach(function(r, i){
+    h += '<tr><td>' + (i+1) + '</td>'
+      + COLS.map(function(c){
+          var cls = (c[0] === 'addr' || c[0] === 'memo') ? ' class="wrapcell"' : '';
+          return '<td' + cls + '>' + esc(r[c[0]] || '') + '</td>';
+        }).join('') + '</tr>';
+  });
+  tw.innerHTML = h + '</tbody></table>';
+}
+
+function toast(msg, bad){
+  var t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg; t.classList.toggle('bad', !!bad);
+}
+
+function fileBase(){
+  var d = new Date(), p = function(n){ return String(n).padStart(2,'0'); };
+  return '타스코_추석선물_신청내역_' + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate());
+}
+
+function tableData(){
+  var head = ['번호'].concat(COLS.map(function(c){ return c[1]; }));
+  var body = rows.map(function(r, i){
+    return [String(i+1)].concat(COLS.map(function(c){ return String(r[c[0]] || ''); }));
+  });
+  return [head].concat(body);
+}
+
+function browserSave(filename, data){
+  try{
+    var blob = new Blob([data], { type: 'application/octet-stream' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    toast(filename + ' 을(를) 내려받았습니다.');
+  }catch(e){ toast('저장하지 못했습니다.', true); }
+}
+
+function saveFile(filename, data){
+  return dlP.then(function(dl){
+    if (!dl){ browserSave(filename, data); return; }
+    return dl.save({ filename: filename, data: data }).then(function(){
+      toast(filename + ' 저장을 요청했습니다.');
+    }).catch(function(e){
+      if (e && e.code === 'declined'){ toast('저장이 취소되었습니다.'); }
+      else { toast('저장하지 못했습니다. 잠시 후 다시 시도해 주세요.', true); }
+    });
+  });
+}
+
+function downloadCsv(){
+  if (!rows.length){ toast('내려받을 신청 내역이 없습니다.', true); return; }
+  var csv = tableData().map(function(r){
+    return r.map(function(v){ return '"' + v.replace(/"/g,'""') + '"'; }).join(',');
+  }).join('\r\n');
+  saveFile(fileBase() + '.csv', '\uFEFF' + csv);
+}
+
+function loadXlsxLib(){
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  return new Promise(function(res, rej){
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload = function(){ window.XLSX ? res(window.XLSX) : rej(); };
+    s.onerror = rej;
+    document.head.appendChild(s);
+  });
+}
+
+function downloadXlsx(){
+  if (!rows.length){ toast('내려받을 신청 내역이 없습니다.', true); return; }
+  toast('엑셀 파일을 만드는 중…');
+  loadXlsxLib().then(function(XLSX){
+    var ws = XLSX.utils.aoa_to_sheet(tableData());
+    ws['!cols'] = [{wch:5},{wch:17},{wch:11},{wch:16},{wch:15},{wch:9},{wch:38},{wch:18},{wch:24}];
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, '신청내역');
+    var out = XLSX.write(wb, { bookType:'xlsx', type:'array' });
+    return saveFile(fileBase() + '.xlsx', out);
+  }).catch(function(){
+    toast('엑셀 파일을 만들지 못했습니다. CSV로 내려받아 주세요.', true);
+  });
+}
+
+/* ─── 라우팅 ────────────────────────────────────────────── */
+function needsSetup(){ return !CFG.endpoint && !ON_ARTIFACT; }
+
+function setupBanner(){
+  if (!needsSetup()) return;
+  var d = document.createElement('div');
+  d.className = 'setup';
+  d.innerHTML = '설정이 끝나지 않았습니다. index.html 의 <b>endpoint</b> 에 구글 앱스스크립트 주소를 넣어야 '
+    + '신청이 저장됩니다. (README 3단계) <b>지금은 고객에게 보내지 마세요.</b>';
+  document.body.insertBefore(d, document.body.firstChild);
+}
+
+function route(){
+  if (location.hash.indexOf('#admin') === 0){ renderAdmin(); return; }
+  var done = null;
+  try{ done = localStorage.getItem(LS_KEY); }catch(e){}
+  if (done) renderDone(done); else renderForm();
+}
+window.addEventListener('hashchange', function(){ route(); window.scrollTo(0,0); });
+route();
+setupBanner();
+</script>
+</body>
+</html>
