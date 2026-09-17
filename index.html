@@ -93,8 +93,8 @@ img{max-width:100%}
   font-family:'Nanum Myeongjo',Batang,serif; font-size:1.15rem;
   margin:0 0 14px; font-weight:800;
 }
-.gift dl{margin:0; display:grid; grid-template-columns:5.4rem 1fr; gap:8px 12px; font-size:.93rem}
-.gift dt{color:var(--soft); font-weight:500}
+.gift dl{margin:0; display:grid; grid-template-columns:7.6rem 1fr; gap:8px 12px; font-size:.93rem}
+.gift dt{color:var(--soft); font-weight:500; word-break:keep-all}
 .gift dd{margin:0; word-break:keep-all}
 .gift .due{color:var(--seal); font-weight:700}
 
@@ -332,28 +332,29 @@ function renderForm(){
   app.innerHTML =
   '<header class="sky">' + MOON
   + '<p class="brand">' + esc(CFG.brandEn) + '</p>'
-  + '<h1>한 해의 수고에<br>감사를 담아 보냅니다</h1>'
+  + '<h1>결실의 계절에<br>감사를 전합니다</h1>'
   + '</header>'
 
   + '<main class="wrap">'
   + '<section class="letter">'
   + '<p>안녕하세요, ' + esc(CFG.company) + '입니다.</p>'
-  + '<p>올 한 해 저희를 믿고 함께해 주신 덕분에 무사히 한가위를 맞이합니다. 늘 곁에서 힘이 되어 주신 마음에 어떻게 보답할까 고민하다, 작은 정성을 준비했습니다.</p>'
-  + '<p>넉넉하고 평안한 한가위 보내시길 바랍니다.</p>'
+  + '<p>곡식이 여물고 과실이 익는 계절입니다. 올해 저희가 거둔 결실을 헤아려 보니, 그 대부분이 귀사와 함께 이룬 것이었습니다.</p>'
+  + '<p>그 마음에 견줄 바는 아니나, 감사의 뜻을 담아 작은 정성을 마련했습니다.</p>'
+  + '<p>보름달처럼 넉넉하고 환한 한가위 보내시기 바랍니다.</p>'
   + '<div class="sign"><b>' + esc(CFG.company) + ' 송문호 회장</b><span>임직원 일동 드림</span></div>'
   + '</section>'
 
   + '<section class="gift">'
   + '<h2>신청 안내</h2>'
   + '<dl>'
-  + '<dt>신청 마감</dt><dd class="due">' + esc(CFG.due) + '</dd>'
-  + '<dt>정보 파기</dt><dd>발송이 끝나면 남겨 주신 정보는 <b>전부 파기</b>합니다</dd>'
+  + '<dt>추석 전 배송 마감</dt><dd class="due">' + esc(CFG.due) + '</dd>'
+  + '<dt>정보 파기</dt><dd>배송이 끝나면 남겨주신 정보는 <b>전부 파기</b>합니다</dd>'
   + '</dl>'
   + '</section>'
 
   + '<section class="form">'
   + '<h2>받으실 곳을 알려 주세요</h2>'
-  + '<p class="lead">선물 발송이 끝나는 대로 입력하신 정보는 모두 파기합니다.</p>'
+  + '<p class="lead">배송이 끝나면 남겨주신 정보는 전부 파기합니다.</p>'
   + '<form id="f" novalidate>'
 
   + '<div class="field" data-f="name"><label for="i-name">성함<span class="req">*</span></label>'
@@ -388,7 +389,7 @@ function renderForm(){
   + '<div class="terms"><table>'
   + '<tr><th>수집 항목</th><td>성함, 회사명·직함, 연락처, 주소, 요청사항(선택)</td></tr>'
   + '<tr><th>이용 목적</th><td>추석 선물 발송 및 배송 관련 안내</td></tr>'
-  + '<tr><th>보유 기간</th><td>선물 발송 및 배송 완료 확인 시점까지만 보관하며, 완료 즉시 지체 없이 파기합니다. (늦어도 ' + esc(CFG.disposeBy) + '까지)</td></tr>'
+  + '<tr><th>보유 기간</th><td>배송 완료 확인 시점까지만 보관하며, 완료 즉시 지체 없이 파기합니다. (늦어도 ' + esc(CFG.disposeBy) + '까지)</td></tr>'
   + '<tr><th>파기 방법</th><td>전자 파일은 복구할 수 없는 방법으로 삭제하고, 출력물이 있는 경우 분쇄합니다. 제3자에게 제공하거나 별도로 보관하지 않습니다.</td></tr>'
   + '</table>'
   + '<p style="margin:8px 0 0">동의를 거부하실 수 있으며, 이 경우 선물 발송이 어려운 점 양해 부탁드립니다.</p>'
@@ -399,7 +400,7 @@ function renderForm(){
 
   + '<button class="submit" type="submit" id="btn">신청 보내기</button>'
   + '<p class="formerr" id="ferr"></p>'
-  + '<p class="formnote">선물 발송 외의 목적으로는 사용하지 않으며, 발송 완료 후 전부 파기합니다.</p>'
+  + '<p class="formnote">선물 배송 외의 목적으로는 사용하지 않으며, 배송이 끝나면 전부 파기합니다.</p>'
   + '</form>'
   + '</section>'
   + '</main>'
@@ -487,7 +488,7 @@ function renderDone(name){
   + '<h2>' + esc(name) + '님, 신청이 접수되었습니다</h2>'
   + '<p>마감 후 순차적으로 발송해 드립니다.</p>'
   + '<p>발송이 시작되면 남겨 주신 번호로 안내드리겠습니다.</p>'
-  + '<p>배송이 확인되면 남겨 주신 정보는 모두 파기합니다.</p>'
+  + '<p>배송이 끝나면 남겨주신 정보는 전부 파기합니다.</p>'
   + '<p style="margin-top:20px">풍성한 한가위 보내세요.</p>'
   + '<button class="again" id="again">주소를 잘못 적었어요 · 다시 신청하기</button>'
   + '</section></main>'
