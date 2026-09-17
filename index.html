@@ -119,8 +119,6 @@ textarea{resize:vertical; min-height:76px; line-height:1.6}
 input:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{
   outline:2px solid var(--seal); outline-offset:2px;
 }
-.row{display:grid; grid-template-columns:8.5rem 1fr; gap:10px}
-@media (max-width:420px){ .row{grid-template-columns:1fr} }
 .err{display:none; margin-top:6px; font-size:.82rem; color:var(--seal)}
 .field.bad input,.field.bad textarea{border-color:var(--seal)}
 .field.bad .err{display:block}
@@ -249,25 +247,54 @@ var dlP = cap('downloads');
 
 var ON_ARTIFACT = !!(window.claude && typeof window.claude.use === 'function');
 
-/* 신청 1건을 구글 시트로 보냅니다.
-   text/plain 으로 보내야 브라우저 사전검사(preflight) 없이 통과합니다. */
+/* 구글 앱스스크립트와의 통신.
+   브라우저 교차 출처 정책(CORS) 때문에 일반 fetch 로는 응답을 읽을 수 없어,
+   <script> 태그로 호출하는 JSONP 방식을 씁니다. 성공·실패를 정확히 받습니다. */
+var jsonpSeq = 0;
+
+function jsonp(params){
+  return new Promise(function(resolve, reject){
+    var cb = '__tascoCb' + (++jsonpSeq) + '_' + Date.now();
+    var tag = document.createElement('script');
+    var timer = setTimeout(function(){ done(); reject(new Error('timeout')); }, 25000);
+
+    function done(){
+      clearTimeout(timer);
+      try { delete window[cb]; } catch (e) { window[cb] = undefined; }
+      if (tag.parentNode) tag.parentNode.removeChild(tag);
+    }
+    window[cb] = function(data){ done(); resolve(data); };
+    tag.onerror = function(){ done(); reject(new Error('network')); };
+
+    var q = [];
+    for (var k in params){
+      if (Object.prototype.hasOwnProperty.call(params, k)){
+        q.push(encodeURIComponent(k) + '=' + encodeURIComponent(params[k] == null ? '' : params[k]));
+      }
+    }
+    q.push('callback=' + cb);
+    tag.src = CFG.endpoint + '?' + q.join('&');
+    document.head.appendChild(tag);
+  });
+}
+
+/* 신청 1건을 구글 시트로 보냅니다. */
 function postToSheet(rec){
-  return fetch(CFG.endpoint, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(rec)
-  }).then(function(r){ return r.json(); }).then(function(j){
+  return jsonp({
+    action: 'add',
+    stamp: rec.stamp, name: rec.name, org: rec.org, phone: rec.phone,
+    addr: rec.addr, addr2: rec.addr2, memo: rec.memo
+  }).then(function(j){
     if (!j || !j.ok) throw new Error('sheet');
   });
 }
 
 /* 관리자 화면에서 시트의 전체 내역을 읽어옵니다. */
 function fetchFromSheet(key){
-  return fetch(CFG.endpoint + '?key=' + encodeURIComponent(key))
-    .then(function(r){ return r.json(); }).then(function(j){
-      if (!j || !j.ok) throw new Error(j && j.error === 'key' ? 'key' : 'load');
-      return j.rows || [];
-    });
+  return jsonp({ action: 'list', key: key }).then(function(j){
+    if (!j || !j.ok) throw new Error(j && j.error === 'key' ? 'key' : 'load');
+    return j.rows || [];
+  });
 }
 
 function store(rec){
@@ -342,15 +369,16 @@ function renderForm(){
   + '<input id="i-phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="010-1234-5678">'
   + '<p class="err">연락 가능한 번호를 정확히 입력해 주세요.</p></div>'
 
-  + '<div class="field" data-f="addr"><label for="i-addr">받으실 주소<span class="req">*</span></label>'
-  + '<div class="row">'
-  + '<input id="i-zip" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="우편번호">'
-  + '<input id="i-addr" type="text" autocomplete="street-address" placeholder="도로명 또는 지번 주소">'
-  + '</div>'
+  + '<div class="field" data-f="addr"><label for="i-addr">받으실 주소<span class="req">*</span>'
+  + '<span class="hint">도로명 또는 지번</span></label>'
+  + '<input id="i-addr" type="text" autocomplete="street-address" '
+  + 'placeholder="서울특별시 강남구 테헤란로 123">'
   + '<p class="err">주소를 입력해 주세요.</p></div>'
 
-  + '<div class="field"><label for="i-addr2">상세 주소<span class="hint">동 · 호수 · 부서</span></label>'
-  + '<input id="i-addr2" type="text" placeholder="3층 301호"></div>'
+  + '<div class="field" data-f="addr2"><label for="i-addr2">상세 주소<span class="req">*</span>'
+  + '<span class="hint">건물 · 동 · 호수 · 층 · 부서</span></label>'
+  + '<input id="i-addr2" type="text" placeholder="○○빌딩 3층 301호 / 101동 1502호">'
+  + '<p class="err">택배 기사가 찾아갈 수 있도록 동·호수까지 적어 주세요.</p></div>'
 
   + '<div class="field"><label for="i-memo">배송 요청사항<span class="hint">선택</span></label>'
   + '<textarea id="i-memo" placeholder="부재 시 경비실에 맡겨 주세요"></textarea></div>'
@@ -398,6 +426,7 @@ function onSubmit(e){
   var org   = val('i-org');
   var phone = val('i-phone');
   var addr  = val('i-addr');
+  var addr2 = val('i-addr2');
   var agree = document.getElementById('i-agree').checked;
   var digits = phone.replace(/[^0-9]/g, '');
 
@@ -406,7 +435,8 @@ function onSubmit(e){
   mark('org',   !org);                       if (!org)  ok = false;
   mark('phone', digits.length < 9 || digits.length > 11);
   if (digits.length < 9 || digits.length > 11) ok = false;
-  mark('addr',  !addr);                      if (!addr) ok = false;
+  mark('addr',  !addr);                      if (!addr)  ok = false;
+  mark('addr2', !addr2);                     if (!addr2) ok = false;
   document.getElementById('consent').classList.toggle('bad', !agree);
   if (!agree) ok = false;
 
@@ -426,7 +456,6 @@ function onSubmit(e){
     name:      name,
     org:       val('i-org'),
     phone:     phone,
-    zip:       val('i-zip'),
     addr:      addr,
     addr2:     val('i-addr2'),
     memo:      val('i-memo'),
@@ -474,7 +503,7 @@ function renderDone(name){
 var rows = [];
 var COLS = [
   ['stamp','접수일시'], ['name','성함'], ['org','회사명·직함'], ['phone','연락처'],
-  ['zip','우편번호'], ['addr','주소'], ['addr2','상세주소'], ['memo','요청사항']
+  ['addr','주소'], ['addr2','상세주소'], ['memo','요청사항']
 ];
 
 function renderAdmin(){
@@ -621,7 +650,7 @@ function downloadXlsx(){
   toast('엑셀 파일을 만드는 중…');
   loadXlsxLib().then(function(XLSX){
     var ws = XLSX.utils.aoa_to_sheet(tableData());
-    ws['!cols'] = [{wch:5},{wch:17},{wch:11},{wch:16},{wch:15},{wch:9},{wch:38},{wch:18},{wch:24}];
+    ws['!cols'] = [{wch:5},{wch:17},{wch:11},{wch:18},{wch:15},{wch:44},{wch:22},{wch:24}];
     var wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, '신청내역');
     var out = XLSX.write(wb, { bookType:'xlsx', type:'array' });
